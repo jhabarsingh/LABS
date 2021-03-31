@@ -1,11 +1,14 @@
 import io
+import re
 import os
 import sys 
 import unicodedata
+import nltk
 from nltk.corpus import stopwords 
 import unicodedata
 from nltk.tokenize import word_tokenize 
 from nltk.stem import PorterStemmer
+nltk.download('stopwords')
 
 DEBUG = True
 
@@ -17,14 +20,25 @@ class DataCleaner():
 	def getText(self):
 		return self.data
 	
+	def removeSpaces(self, data):
+		return re.sub(' +', ' ', data)
+
+
+	def replaceNewline(self, data):
+		return data.replace('\\n', '\n')
+
+	def replaceReturnCarrige(self, data):
+		return data.replace('\\r', '')
+
 	def assignData(self):
 		newData = ""
 		with open(self.filename, "rb") as rfile:
-			lines = rfile.readlines()
-			for i in lines:
-				newData += str(i)
-		newData.replace("\\n", " ")
-		self.data = newData
+			newData = rfile.read()
+			self.data = str(newData)[2:-1]
+			self.data = self.removeSpaces(self.data)
+			self.data = self.replaceNewline(self.data)
+			self.data = self.replaceReturnCarrige(self.data)
+
 		return newData
 		
 	def removeAccent(self):
@@ -49,6 +63,22 @@ class DataCleaner():
 		for w in words:
     			newData += ps.stem(w)
 		return newData
+
+	def cleanData(self):
+		self.data = self.removeAccent()
+		self.data = self.removestopWord()
+		self.data = self.stemming()
+
+		return self.data
+
+	def createFile(self, data):
+		filename =self.filename.split('.')[0] + "_output." + self.filename.split('.')[1] 
+		print(filename)
+		with open(filename, "w+") as wfile:
+			wfile.write(data)
+
+		return True
+
 	
 		
 if __name__ == "__main__":
@@ -57,6 +87,7 @@ if __name__ == "__main__":
 	datacleaner.assignData()
 	if DEBUG:
 		print(datacleaner.getText())
-		
-	print(datacleaner.removeAccent())
-	print(datacleaner.stemming())
+	
+	changedData = datacleaner.cleanData()
+
+	datacleaner.createFile(changedData)
