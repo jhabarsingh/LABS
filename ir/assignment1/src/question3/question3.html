@@ -2,16 +2,108 @@
 <html>
 <head>
 	<title>VECTOR MODEL</title>
-	<link rel="stylesheet" href="question3.css">
+	<style>
+		html, * {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			position: relative;
+			overflow: hidden;
+		}
+
+		body {
+			min-height: 100vh;
+		}
+		.grid {
+			max-width: 600px;
+			position: relative;
+			padding: 10px;
+			margin: 50px auto;
+			outline: 2px solid green;
+		}
+
+		p:nth-child(1) {
+			padding: 20px;
+			text-align: center;
+			font-family: ubuntu;
+			font-weight: bolder;
+			font-size: 20px;
+		}
+
+		.algo {
+			display: block;
+			padding: 10px;
+			background: lightgreen;
+			margin: 10px;
+			box-shadow: -5px 10px 5px rgba(0, 0, 0, .2);
+		}
+
+		.algo__link {
+			text-decoration: none;
+			color: purple;
+			font-size: 20px;
+			font-weight: bolder;
+			text-shadow: 10px 10px 10px rgba(0, 0, 0, .3);
+		}
+
+	</style>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-	<!-- <p>VECTOR MODEL</p> -->
-	<canvas class='grid'>
-		
-	</canvas>
+	<p class='heading'>Vector Model</p>
+	<div class='grid'></div>
 
-	<script type="text/javascript" src="question3.js" ></script>
+	</div>
+
+	<div class="circular__read">
+		
+	</div>
+	<script>
+
+// Main
+		let grid = document.querySelector('.grid');
+		let algo = [
+			{
+				name: 'See Document, Query',
+				link: `vector_model/doc_query.html`
+			},
+			{
+				name: 'Create Score Table',
+				link: `vector_model/score_table.html`
+			},
+			{
+				name: 'Calculate Inverse Document Frequency',
+				link: `vector_model/idf.html`
+			},
+			{
+				name: 'Normalize Score Table using Idf',
+				link: `vector_model/normalize.html`
+			},
+			{
+				name: 'Calculate Documents, Query Length',
+				link: `vector_model/length.html`
+			},
+			{
+				name: 'Calculate Similarity Value',
+				link: `vector_model/cosine.html`
+			},
+		]
+		init();
+
+// Utility function 
+
+		function init() {
+			algo.forEach((e, i) => {
+				let html = `
+						<a href="${e.link}" class="algo__link">${e.name}</a>
+				`
+				let algo = document.createElement('div');
+				algo.classList.add('algo');
+				algo.innerHTML = html;
+				grid.appendChild(algo);
+			})
+		}
+	</script>
 </body>
 </html>
