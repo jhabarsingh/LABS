@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>heading</title>
+	<title>DOC QUERY TABLE</title>
 	<style>
 		html, * {
 			box-sizing: border-box;
@@ -16,7 +16,6 @@
 		.grid {
 			background: lightgreen;
 			margin: auto;
-			display: block;
 		}
 
 		p:nth-child(1) {
@@ -35,124 +34,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-	<canvas class='grid'>
+	<p>DOC QUERY TABLE</p>
+	<canvas class='grid' width="1000" height="500">
 		
 	</canvas>
 
 	<script>
 
-(function() {
-        var canvas = document.querySelector('canvas'),
-                ctx = canvas.getContext('2d');
-
-        // resize the canvas to fill browser window dynamically
-        window.addEventListener('resize', resizeCanvas, false);
-        
-        function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                
-                /**
-                 * Your drawings need to be inside this function otherwise they will be reset when 
-                 * you resize the browser window and the canvas goes will be cleared.
-                 */
-                drawStuff(); 
-        }
-        resizeCanvas();
-        
-        function drawStuff() {
-                // do your drawing stuff here
-                main()
-        		
-        }
-})();
-
-function main() {
-	// Main
-	let ctx = document.querySelector("canvas").getContext("2d");
-	let size = 10;
-	let document1 = undefined;
-	let document2 = undefined;
-	let document3 = undefined;
-	let columns = new Set();
-	let query = [];
-	let time_delay = 1000;
+// Main
+let ctx = document.querySelector("canvas").getContext("2d");
+let size = 10;
+let document1 = undefined;
+let document2 = undefined;
+let document3 = undefined;
+let columns = new Set();
+let query = [];
+let time_delay = 1000;
 
 
-	init();
+init();
 // Utility
-	function init() {
-		init_arrays()
-		createTable();
-		add_listeners()
+function init() {
+	init_arrays()
+	createTable();
+	add_listeners()
+}
+
+function splitter(str) {
+	return str.split(",");
+}
+
+
+function createRect(pw, ph, index, element) {
+	ctx.save();
+	ctx.fillStyle = "black";
+	ctx.fillRect(pw * index, 0, pw, ph);
+
+
+	ctx.strokeStyle = "white";
+	ctx.strokeRect(pw * index, 0, pw, ph);
+	
+	ctx.fillStyle = "white";			
+	ctx.font = "14px bolder arial"
+	ctx.fillText(element, pw * index + 10, 0 + ph / 2);
+	
+	ctx.restore();
+}
+
+function createColumn() {
+	let pw = ctx.canvas.width / (columns.size + 1);
+	let ph = 60;
+	index = 0
+	
+	createRect(pw, ph, index, "");
+	index++;
+
+	columns.forEach((element) => {
+		createRect(pw, ph, index, element);
+		index++;
+	})
+}
+
+function createTable() {
+	createColumn();
+}
+
+function init_arrays() {
+	document1 = splitter(window.localStorage.getItem("document1"))
+	document2 = splitter(window.localStorage.getItem("document2"))
+	document3 = splitter(window.localStorage.getItem("document3"))
+	query = splitter(window.localStorage.getItem("query"))	
+
+	for(let i=0; i<document1.length; i++) {
+		columns.add(document1[i]);
 	}
 
-	function splitter(str) {
-		return str.split(",");
+	for(let i=0; i<document2.length; i++) {
+		columns.add(document2[i]);
 	}
 
-	function createRect(pw, ph, index, element) {
-		ctx.save();
-		ctx.fillStyle = "black";
-		ctx.fillRect(pw * index, 0, pw, ph);
+	for(let i=0; i<document3.length; i++) {
+		columns.add(document3[i]);
+	}	
 
-
-		ctx.stroke = "black";
-		ctx.strokeRect(pw * index, 0, pw, ph);
-		
-		ctx.fillStyle = "white";			
-		ctx.font = "14px bolder arial"
-		ctx.fillText(element, pw * index + pw / 2, 0 + ph / 2);
-		
-		ctx.restore();
+	for(let i=0; i<query.length; i++) {
+		columns.add(query[i]);
 	}
+}
 
-	function createColumn() {
-		let pw = ctx.canvas.width / (columns.size + 1);
-		let ph = 100;
-
-		index = 0;
-		columns.forEach((index, element) => {
-			createRect(pw, ph, index + 1, element)
-		})
-	}
-
-	function createTable() {
-		createColumn();
-	}
-
-	function init_arrays() {
-		document1 = splitter(window.localStorage.getItem("document1"))
-		document2 = splitter(window.localStorage.getItem("document2"))
-		document3 = splitter(window.localStorage.getItem("document3"))
-		query = splitter(window.localStorage.getItem("query"))	
-
-		for(let i=0; i<document1.length; i++) {
-			columns.add(document1[i]);
-		}
-
-		for(let i=0; i<document2.length; i++) {
-			columns.add(document2[i]);
-		}
-
-		for(let i=0; i<document3.length; i++) {
-			columns.add(document3[i]);
-		}	
-
-		for(let i=0; i<query.length; i++) {
-			columns.add(query[i]);
-		}
-	}
-
-	function add_listeners() {
-
-	}
-
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-	}
+function add_listeners() {
 
 }
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 
 	</script>
 </body>
