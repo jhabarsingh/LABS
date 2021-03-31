@@ -14,7 +14,7 @@
 		}
 
 		.grid {
-			background: lightgreen;
+			background: white;
 			margin: auto;
 		}
 
@@ -35,7 +35,7 @@
 </head>
 <body>
 	<p>DOC QUERY TABLE</p>
-	<canvas class='grid' width="1000" height="500">
+	<canvas class='grid' width="1250" height="500">
 		
 	</canvas>
 
@@ -65,18 +65,21 @@ function splitter(str) {
 }
 
 
-function createRect(pw, ph, index, element) {
+function createRect(pw, ph, index, element, y=0, bg="black", center=true) {
 	ctx.save();
-	ctx.fillStyle = "black";
-	ctx.fillRect(pw * index, 0, pw, ph);
+	ctx.fillStyle = bg;
+	ctx.fillRect(pw * index, y, pw, ph);
 
 
 	ctx.strokeStyle = "white";
-	ctx.strokeRect(pw * index, 0, pw, ph);
+	ctx.strokeRect(pw * index, y, pw, ph);
 	
 	ctx.fillStyle = "white";			
-	ctx.font = "14px bolder arial"
-	ctx.fillText(element, pw * index + 10, 0 + ph / 2);
+	ctx.font = "bolder 12px arial"
+	if(center == true)
+		gaps = pw / 2;
+	else gaps = 3
+	ctx.fillText(element, pw * index + gaps, y + ph / 2);
 	
 	ctx.restore();
 }
@@ -86,13 +89,99 @@ function createColumn() {
 	let ph = 60;
 	index = 0
 	
-	createRect(pw, ph, index, "");
+	createRect(pw, ph, index, "", 0, "white", false);
 	index++;
 
 	columns.forEach((element) => {
-		createRect(pw, ph, index, element);
+		createRect(pw, ph, index, element, 0, "red", false);
 		index++;
 	})
+
+	let map = new Map();
+
+	for(let i=0; i<document1.length; i++) {
+		if(map.get(document1[i]))
+			map.set(document1[i], map.get(document1[i])++);
+		else
+			map.set(document1[i], 1);
+	}
+
+	gap = 80;
+	y = ph
+	ph = gap;
+	index = 0
+	createRect(pw, ph, index, "DOC1", y, "red", false)
+	index++;
+	columns.forEach((element) => {
+		if(map.get(element))
+			createRect(pw, ph, index, map.get(element), y);
+		else
+			createRect(pw, ph, index, 0, y);
+		index++;
+	})
+	
+	map = new Map();
+
+	for(let i=0; i<document2.length; i++) {
+		if(map.get(document2[i]))
+			map.set(document2[i], map.get(document2[i])++);
+		else
+			map.set(document2[i], 1);
+	}
+
+	index = 0
+	createRect(pw, ph, index, "DOC2", y + gap, "red", false)
+	index++;
+	columns.forEach((element) => {
+		if(map.get(element))
+			createRect(pw, ph, index, map.get(element), y + gap);
+		else
+			createRect(pw, ph, index, 0, y + gap);
+		index++;
+	})
+
+
+	map = new Map();
+
+	for(let i=0; i<document3.length; i++) {
+		if(map.get(document3[i]))
+			map.set(document3[i], map.get(document3[i])++);
+		else
+			map.set(document3[i], 1);
+	}	
+
+	index = 0;
+	createRect(pw, ph, index, "DOC3", y + gap * 2, "red", false)
+	index++;
+	columns.forEach((element) => {
+		if(map.get(element))
+			createRect(pw, ph, index, map.get(element), y + gap * 2);
+		else
+			createRect(pw, ph, index, 0, y + gap * 2);
+		index++;
+	})
+
+
+	map = new Map();
+
+	for(let i=0; i<query.length; i++) {
+		if(map.get(query[i]))
+			map.set(query[i], map.get(query[i])++);
+		else
+			map.set(query[i], 1);
+	}
+
+	index = 0;
+	createRect(pw, ph, index, "QUERY", y + gap * 3, "red", false)
+	index++;
+	columns.forEach((element) => {
+		if(map.get(element))
+			createRect(pw, ph, index, map.get(element), y + gap * 3);
+		else
+			createRect(pw, ph, index, 0, y + 3 * gap);
+		index++;
+	})
+
 }
 
 function createTable() {
