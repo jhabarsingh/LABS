@@ -10,7 +10,7 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 nltk.download('stopwords')
 
-DEBUG = True
+DEBUG = False
 
 class DataCleaner():
 	def __init__(self, filename):
@@ -50,10 +50,8 @@ class DataCleaner():
 		stop_words = set(stopwords.words('english')) 
 		words = self.data.split()		
 		newData = ""
-		for r in words: 
-			if not r in stop_words: 
-				newData += r		
-		return newData
+		newData = [word for word in words if word not in stopwords.words('english')]		
+		return " ".join(newData)
 	
 
 	def stemming(self):
@@ -61,7 +59,7 @@ class DataCleaner():
 		words = self.data.split()
 		newData = ""
 		for w in words:
-    			newData += ps.stem(w)
+    			newData += ps.stem(w) + " "
 		return newData
 
 	def cleanData(self):
@@ -72,8 +70,7 @@ class DataCleaner():
 		return self.data
 
 	def createFile(self, data):
-		filename =self.filename.split('.')[0] + "_output." + self.filename.split('.')[1] 
-		print(filename)
+		filename =self.filename.split('.')[0] + "_output." + self.filename.split('.')[1]
 		with open(filename, "w+") as wfile:
 			wfile.write(data)
 
@@ -87,6 +84,7 @@ if __name__ == "__main__":
 	datacleaner.assignData()
 	if DEBUG:
 		print(datacleaner.getText())
+	
 	
 	changedData = datacleaner.cleanData()
 
