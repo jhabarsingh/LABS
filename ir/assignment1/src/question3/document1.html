@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOCUMENT1</title>
+	<style type="text/css">
+		
+		heading {
+			text-align: center;
+		}
+
+		heading > h1 {
+			margin-top: 5px;
+		}
+
+		body {
+			margin: 0px;
+			padding: 0px;
+			box-shadow: border-box;
+		    color: rgb(60, 72, 82);
+		    font-family: AvertaStd,-apple-system,BlinkMacSystemFont,sans-serif;
+		}
+
+		.option, .option1 {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		heading > p {
+			color: rgb(154, 175, 191);
+			margin-top: 24px;
+			font-size: 18px;
+		}
+
+		.option > span {
+			background: rgba(8, 189, 128);
+			color: white;
+			padding: 10px;
+			margin: 5px 10px;
+			border-radius: 10px;
+		}
+
+		.option1 > span, .terms > span {
+			background: rgba(8, 189, 128);
+			color: white;
+			padding: 10px;
+			margin: 5px 10px;
+			border-radius: 10px;
+		}
+
+		.option1 {
+			margin-top: 50px;
+		}
+
+		.option > span:hover, .terms > span:hover {
+			cursor: pointer;
+		}
+
+		.option1 > span:nth-child(1) {
+			background: black;
+			color: white;
+			padding: 10px;
+			margin: 5px 10px;
+			border-radius: 10px;
+		}
+
+		.option1 {
+			border :2px solid black;
+			margin: 10px 10px;
+			border-radius: 10px;
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.terms {
+			display: flex;
+			position: relative;
+			flex-wrap: wrap;
+		}
+
+		.terms > span {
+			z-index: 10;
+		}
+
+		button {
+		    margin-top: 24px;
+		    height: 48px;
+		    font-size: 16px;
+		    width: 170px;
+		    line-height: 100%;
+			color: rgb(255, 255, 255);
+			background-color: rgb(8, 189, 128);
+			transition: box-shadow 200ms ease-in-out 0s, transform 200ms ease-in-out 0s;
+			border: none;
+			border-radius: 5px;
+			margin: auto;
+			outline: none;
+		}
+
+		button:hover {
+			border: none;
+			outline: none;
+		}
+
+	</style>
+</head>
+<body>
+	<heading>
+		<h1>Document 1</h1>
+		<p>Select Atmost 10 words from the given words</p>
+	</heading>
+	<div class="option"> 
+		
+
+	</div>
+
+	<div class="option1"> 
+		<span>Terms</span>
+		<div class="terms" id="terms">
+			
+		</div>
+	</div>
+	<div style="text-align: center;">
+		<button>
+			submit
+		</button>
+	</div>
+<div>
+	
+</div>
+</body>
+<script type="text/javascript">
+	stack = []
+
+	stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 		'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now'
+	]
+
+	option = document.querySelector(".option");
+
+	for(let i=0; i<stopwords.length; i++) {
+		el = document.createElement("span");
+		el.innerText = stopwords[i]
+		option.append(el);
+	}
+
+	function insertTerm(value) {
+		option = document.querySelector(".terms");
+		option.innerHTML = "";
+		for(let i=0; i<stack.length; i++) {
+			el = document.createElement("span");
+			el.innerText =  stack[i];
+			option.append(el);
+		}
+		options1 = document.querySelectorAll("#terms > span")
+	}
+
+	options = document.querySelectorAll(".option > span")
+
+	options1 = document.querySelectorAll("#terms > span")
+
+	options.forEach((element) => element.addEventListener("click", (el) => {
+		if(stack.length == 10) {
+			alert("length can't exceed 10")
+			return;
+		}
+		value = element.innerText;
+		if(false) {
+			let index = 0
+			for(let i=0; i<stack.length(); i++) {
+				if(stack[i] == value) {
+					break;
+				}
+				index++;
+			}
+			stack.splice(index, 1);
+			stack.sort();
+			insertTerm(value);
+		}
+		else {
+			stack.push(value);
+			stack.sort();
+			insertTerm(value);
+		}
+	}))
+
+	options1.forEach((element) => element.addEventListener("click", (el) => {
+		if(stack.length < 0) {
+			alert("length can't be less than")
+			return;
+		}
+		value = element.innerText;
+		console.log(value)
+		if(true) {
+			const index = stack.indexOf(value);
+			stack.splice(index, 1);
+			console.log(index)
+			stack.sort();
+			console.log(stack);
+			insertTerm(value);
+		}
+		else {
+			stack.push(value);
+			stack.sort();
+			insertTerm(value);
+		}
+	}))
+
+
+	document.querySelector("button").addEventListener("click", () => {
+		if(stack.length == 0 ) {
+			alert("document can't be null");
+			return;
+		}
+
+		window.localStorage.setItem("document1", stack)
+		window.location.href = "document2.html"
+	})
+
+</script>
+
+</html>
