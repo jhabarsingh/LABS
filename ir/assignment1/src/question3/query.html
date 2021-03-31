@@ -106,7 +106,7 @@
 <body>
 	<heading>
 		<h1>Query</h1>
-		<p>Select Atmost 10 words from the given words</p>
+		<p>Select Atmost 4 words from the given words</p>
 	</heading>
 	<div class="option"> 
 		
@@ -130,6 +130,7 @@
 </body>
 <script type="text/javascript">
 	stack = []
+	size = 4
 
 	stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 		'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now'
 	]
@@ -158,8 +159,8 @@
 	options1 = document.querySelectorAll("#terms > span")
 
 	options.forEach((element) => element.addEventListener("click", (el) => {
-		if(stack.length == 10) {
-			alert("length can't exceed 10")
+		if(stack.length == size) {
+			alert("length can't exceed " + size)
 			return;
 		}
 		value = element.innerText;
