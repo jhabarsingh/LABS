@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>heading</title>
+	<title>Inverse Document Frequency</title>
 	<style>
 		html, * {
 			box-sizing: border-box;
@@ -16,7 +16,6 @@
 		.grid {
 			background: lightgreen;
 			margin: auto;
-			display: block;
 		}
 
 		p:nth-child(1) {
@@ -35,40 +34,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-	<canvas class='grid'>
+	<p>Inverse Document Frequency</p>
+	<canvas class='grid' width="1000" height="500">
 		
 	</canvas>
 
 	<script>
 
-(function() {
-        var canvas = document.querySelector('canvas'),
-                ctx = canvas.getContext('2d');
-
-        // resize the canvas to fill browser window dynamically
-        window.addEventListener('resize', resizeCanvas, false);
-        
-        function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                
-                /**
-                 * Your drawings need to be inside this function otherwise they will be reset when 
-                 * you resize the browser window and the canvas goes will be cleared.
-                 */
-                drawStuff(); 
-        }
-        resizeCanvas();
-        
-        function drawStuff() {
-                // do your drawing stuff here
-                main()
-        		
-        }
-})();
-
-function main() {
-	// Main
+// Main
 	let ctx = document.querySelector("canvas").getContext("2d");
 	let size = 10;
 	let arr = [];
@@ -88,8 +61,6 @@ function main() {
 	function sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
-
-}
 
 	</script>
 </body>
