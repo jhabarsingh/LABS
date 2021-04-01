@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>DOC QUERY TABLE</title>
+	<title>DOCUMENTS & QUERY</title>
 	<style>
 		html, * {
 			box-sizing: border-box;
@@ -28,6 +28,69 @@
 			color: gray;
 		}
 
+		.option, .option1 {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		heading > p {
+			color: rgb(154, 175, 191);
+			margin-top: 24px;
+			font-size: 18px;
+		}
+
+		.option > span {
+			background: rgba(8, 189, 128);
+			color: white;
+			padding: 10px;
+			margin: 5px 10px;
+			border-radius: 10px;
+		}
+
+		.option1 > span, .terms > span {
+			background: rgba(8, 189, 128);
+			color: white;
+			padding: 10px;
+			margin: 5px 10px;
+			border-radius: 10px;
+		}
+
+		.option1 {
+			margin-top: 50px;
+		}
+
+		.option > span:hover, .terms > span:hover {
+			cursor: pointer;
+		}
+
+		.option1 > span:nth-child(1) {
+			background: black;
+			color: white;
+			padding: 10px;
+			margin: 5px 10px;
+			border-radius: 10px;
+		}
+
+		.option1 {
+			border :2px solid lightgreen;
+			margin: 10px 10px;
+			border-radius: 10px;
+			display: flex;
+			flex-wrap: wrap;
+			margin-top: 20px;
+			padding: 10px;
+		}
+
+		.terms {
+			display: flex;
+			position: relative;
+			flex-wrap: wrap;
+		}
+
+		.terms > span {
+			z-index: 10;
+		}
+
 
 	</style>
 	<meta charset="utf-8">
@@ -35,68 +98,45 @@
 </head>
 <body>
 	<p>DOC QUERY TABLE</p>
-	<canvas class='grid' width="1000" height="500">
-		
-	</canvas>
+	
+	<div class="doc1 option1"> 
+		<span>Document 1</span>
+		<div class="terms" id="terms">
+			
+		</div>
+	</div>
+
+	<div class="doc2 option1"> 
+		<span>Document 2</span>
+		<div class="terms" id="terms">
+			
+		</div>
+	</div>
+
+	<div class="doc3 option1"> 
+		<span>Document 3</span>
+		<div class="terms" id="terms">
+			
+		</div>
+	</div>
+
+	<div class="query option1"> 
+		<span>Query</span>
+		<div class="terms" id="terms">
+			
+		</div>
+	</div>
 
 	<script>
 
-// Main
-let ctx = document.querySelector("canvas").getContext("2d");
-let size = 10;
 let document1 = undefined;
 let document2 = undefined;
 let document3 = undefined;
-let columns = new Set();
 let query = [];
-let time_delay = 1000;
-
-
-init();
-// Utility
-function init() {
-	init_arrays()
-	createTable();
-	add_listeners()
-}
+init_arrays();
 
 function splitter(str) {
 	return str.split(",");
-}
-
-
-function createRect(pw, ph, index, element) {
-	ctx.save();
-	ctx.fillStyle = "black";
-	ctx.fillRect(pw * index, 0, pw, ph);
-
-
-	ctx.strokeStyle = "white";
-	ctx.strokeRect(pw * index, 0, pw, ph);
-	
-	ctx.fillStyle = "white";			
-	ctx.font = "14px bolder arial"
-	ctx.fillText(element, pw * index + 10, 0 + ph / 2);
-	
-	ctx.restore();
-}
-
-function createColumn() {
-	let pw = ctx.canvas.width / (columns.size + 1);
-	let ph = 60;
-	index = 0
-	
-	createRect(pw, ph, index, "");
-	index++;
-
-	columns.forEach((element) => {
-		createRect(pw, ph, index, element);
-		index++;
-	})
-}
-
-function createTable() {
-	createColumn();
 }
 
 function init_arrays() {
@@ -105,26 +145,41 @@ function init_arrays() {
 	document3 = splitter(window.localStorage.getItem("document3"))
 	query = splitter(window.localStorage.getItem("query"))	
 
+	option = document.querySelector(".doc1 > .terms");
+
 	for(let i=0; i<document1.length; i++) {
-		columns.add(document1[i]);
+		el = document.createElement("span");
+		el.innerText = document1[i]
+		option.append(el);
 	}
+
+	option = document.querySelector(".doc2 > .terms");
 
 	for(let i=0; i<document2.length; i++) {
-		columns.add(document2[i]);
+		el = document.createElement("span");
+		el.innerText = document2[i]
+		option.append(el);
 	}
+
+	option = document.querySelector(".doc3 > .terms");
 
 	for(let i=0; i<document3.length; i++) {
-		columns.add(document3[i]);
-	}	
+		el = document.createElement("span");
+		el.innerText = document3[i]
+		option.append(el);
+	}
+
+	option = document.querySelector(".query > .terms");
 
 	for(let i=0; i<query.length; i++) {
-		columns.add(query[i]);
+		el = document.createElement("span");
+		el.innerText = query[i]
+		option.append(el);
 	}
-}
-
-function add_listeners() {
 
 }
+
+
 
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
