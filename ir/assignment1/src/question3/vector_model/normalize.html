@@ -167,20 +167,26 @@ function createColumn() {
 
 
 	map = new Map();
-
+	let fmax = 1;
 	for(let i=0; i<query.length; i++) {
 		if(map.get(query[i]))
 			map.set(query[i], map.get(query[i])++);
 		else
 			map.set(query[i], 1);
+		fmax = (map.get(query[i]) > fmax) ? map.get(query[i]) : fmax;
 	}
 
 	index = 0;
 	createRect(pw, ph, index, "QUERY", y + gap * 3, "red", false)
 	index++;
+	
+	map.forEach((e) => {
+
+	})
 	columns.forEach((element) => {
+		temp = idf.get(element) != undefined ? idf.get(element) : 0;
 		if(map.get(element))
-			createRect(pw, ph, index, map.get(element), y + gap * 3);
+			createRect(pw, ph, index, (map.get(element) / fmax) * temp, y + gap * 3);
 		else
 			createRect(pw, ph, index, 0, y + 3 * gap);
 		index++;
