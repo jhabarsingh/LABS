@@ -14,7 +14,7 @@
 		}
 
 		.grid {
-			background: lightgreen;
+			background: white;
 			margin: auto;
 		}
 
@@ -47,16 +47,135 @@
 	let arr = [];
 	let time_delay = 1000;
 
-
-	init();
 // Utility
-	function init() {
-		add_listeners()
+	
+let document1 = undefined;
+let document2 = undefined;
+let document3 = undefined;
+let map1 = new Map();
+let map2 = new Map();
+let map3 = new Map();
+let map4 = new Map();
+let columns = new Set();
+let query = [];
+init_arrays();
+fillMaps();
+animate();
+
+
+function splitter(str) {
+	return str.split(",");
+}
+
+
+function init_arrays() {
+	document1 = splitter(window.localStorage.getItem("document1"))
+	document2 = splitter(window.localStorage.getItem("document2"))
+	document3 = splitter(window.localStorage.getItem("document3"))
+	query = splitter(window.localStorage.getItem("query"))	
+
+	for(let i=0; i<document1.length; i++) {
+		columns.add(document1[i]);
 	}
 
-	function add_listeners() {
-
+	for(let i=0; i<document2.length; i++) {
+		columns.add(document2[i]);
 	}
+
+	for(let i=0; i<document3.length; i++) {
+		columns.add(document3[i]);
+	}	
+
+	// for(let i=0; i<query.length; i++) {
+	// 	columns.add(query[i]);
+	// }
+}
+
+function fillMaps() {
+
+	for(let i=0; i<document1.length; i++) {
+		if(map1.get(document1[i]))
+			map1.set(document1[i], map1.get(document1[i])++);
+		else
+			map1.set(document1[i], 1);
+	}
+	
+
+	for(let i=0; i<document2.length; i++) {
+		if(map2.get(document2[i]))
+			map2.set(document2[i], map2.get(document2[i])++);
+		else
+			map2.set(document2[i], 1);
+	}
+
+
+	for(let i=0; i<document3.length; i++) {
+		if(map3.get(document3[i]))
+			map3.set(document3[i], map3.get(document3[i])++);
+		else
+			map3.set(document3[i], 1);
+	}	
+
+
+	for(let i=0; i<query.length; i++) {
+		if(map4.get(query[i]))
+			map4.set(query[i], map4.get(query[i])++);
+		else
+			map4.set(query[i], 1);
+	}
+
+
+}
+
+function createRect(bg, color, x, y, dx, dy, text, center=true) {
+	ctx.fillStyle = bg;
+	ctx.fillRect(x, y, dx, dy);
+
+	ctx.strokeStyle = "white";
+	ctx.strokeRect(x, y, dx, dy);
+
+	ctx.fillStyle = color;
+
+	let gap = 5;
+
+	ctx.font = "bolder 20px arial"
+	if(center)
+		ctx.fillText(text, x + dx / 2, y + dy / 2);
+	else
+		ctx.fillText(text, x + gap, y + dy / 2);
+
+}
+
+function getter(text) {
+	let a, b, c;
+	a = map1.get(text) != undefined ? 1 : 0;
+	b = map2.get(text) != undefined ? 1 : 0;
+	c = map3.get(text) != undefined ? 1 : 0;
+	return (a + b + c);
+}
+
+function animate() {
+	dx = ctx.canvas.width / 3;
+	dy = ctx.canvas.height / (columns.size + 1);
+
+	createRect("red", "white", 0, 0, dx, dy, "Term");
+	createRect("red", "white", dx, 0, dx, dy, "idf = log(N / n)");
+	createRect("red", "white", 2 * dx, 0, dx, dy, "idf value");
+	let index = 0;
+	columns.forEach((text) => {
+		index++;
+		n = getter(text);
+		N = 3;
+		createRect("red", "white", 0, dy * index, dx, dy, text);
+		createRect("black", "white", dx, dy * index, dx, dy, `log(${N} / ${n})`);
+		createRect("black", "white", 2 * dx, dy * index, dx, dy, Math.log2(N / n).toPrecision(4));
+	})
+}
+
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 	function sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms));
