@@ -162,6 +162,8 @@ function animate() {
 	createRect("red", "white", dx, 0, dx, dy, "idf = log(N / n)");
 	createRect("red", "white", 2 * dx, 0, dx, dy, "idf value");
 	let index = 0;
+	arr = [];
+	col = [];
 	columns.forEach((text) => {
 		index++;
 		n = getter(text);
@@ -169,7 +171,13 @@ function animate() {
 		createRect("red", "white", 0, dy * index, dx, dy, text);
 		createRect("black", "white", dx, dy * index, dx, dy, `log(${N} / ${n})`);
 		createRect("black", "white", 2 * dx, dy * index, dx, dy, Math.log2(N / n).toPrecision(4));
+		arr.push(Math.log2(N / n).toPrecision(4));
+		col.push(text);
 	})
+
+	window.localStorage.setItem("col", col);
+	window.localStorage.setItem("idf", arr);	
+
 }
 
 
