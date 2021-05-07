@@ -130,10 +130,11 @@ function createColumn() {
 			map1.set(element, (map.get(element) / fmax) * temp);
 		}
 	})
+	console.log(document1)
 
 	for(let i=0; i<document1.length; i++) {
 		if(map.get(document1[i]))
-			map.set(document1[i], map.get(document1[i])++);
+			map.set(document1[i], map.get(document1[i]) + 1);
 		else
 			map.set(document1[i], 1);
 	}
@@ -146,15 +147,21 @@ function createColumn() {
 	index++;
 
 	map = new Map();
+	let value = 0;
+	index = 0;
 	columns.forEach((element) => {
-		if(map.get(element)){
-			createRect(pw, ph, index, map.get(element) * idf.get(element), y);
-			length += Math.pow(map.get(element) * idf.get(element), 2);
+		if(map.get(element) && map1.get(element)) {
+			console.log(value);
+			value += (+map.get(element)) * (+map1.get(element));
 		}
-		else
-			createRect(pw, ph, index, 0, y);
 		index++;
 	})
+	doc_length = +localStorage.getItem("doc1_length");
+	query_length = +localStorage.getItem("query_length");
+	value = (value / (doc_length * query_length));
+	createRect(pw, ph, 1, `${value.toPrecision(4)} / (${doc_length} * ${query_length})`, y);
+	createRect(pw, ph, 2, value.toPrecision(4), y);
+
 	
 	map = new Map();
 	length = 0;
@@ -168,17 +175,22 @@ function createColumn() {
 
 	index = 0
 	createRect(pw, ph, index, "DOC2", y + gap, "red", false)
-	index++;
+	index = 0;
+	value = 0;
 	columns.forEach((element) => {
-		if(map.get(element)){
-			length += Math.pow(map.get(element) * idf.get(element), 2);
-			createRect(pw, ph, index, map.get(element) * idf.get(element), y + gap);
+	
+		if(map.get(element) && map1.get(element)) {
+			console.log(value);
+			value += (+map.get(element)) * (+map1.get(element));
 		}
-		else
-			createRect(pw, ph, index, 0, y + gap);
 		index++;
-	})
-
+	})	
+	
+	doc_length = +localStorage.getItem("doc2_length");
+	query_length = +localStorage.getItem("query_length");
+	value = (value / (doc_length * query_length));
+	createRect(pw, ph, 1, `${value.toPrecision(4)} / (${doc_length} * ${query_length})`, y + gap);
+	createRect(pw, ph, 2, value.toPrecision(4), y + gap);
 
 	map = new Map();
 	length = 0;
@@ -192,16 +204,22 @@ function createColumn() {
 
 	index = 0;
 	createRect(pw, ph, index, "DOC3", y + gap * 2, "red", false)
-	index++;
+	index = 0;
+	value = 0;
 	columns.forEach((element) => {
-		if(map.get(element)){
-			length += Math.pow(map.get(element) * idf.get(element), 2);
-			createRect(pw, ph, index, map.get(element) * idf.get(element), y + gap * 2);
+	
+		if(map.get(element) && map1.get(element)) {
+			console.log(value);
+			value += (+map.get(element)) * (+map1.get(element));
 		}
-		else
-			createRect(pw, ph, index, 0, y + gap * 2);
 		index++;
-	})
+	})	
+	
+	doc_length = +localStorage.getItem("doc3_length");
+	query_length = +localStorage.getItem("query_length");
+	value = (value / (doc_length * query_length));
+	createRect(pw, ph, 1, `${value.toPrecision(4)} / (${doc_length} * ${query_length})`, y + 2 * gap);
+	createRect(pw, ph, 2, value.toPrecision(4), y + 2 * gap);
 
 
 
