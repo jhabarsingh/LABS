@@ -132,6 +132,15 @@ function createColumn() {
 	})
 	console.log(document1)
 
+	map1 = new Map();
+
+	for(let i=0; i<query.length; i++) {
+		if(map1.get(query[i]))
+			map1.set(query[i], map1.get(query[i]) + 1);
+		else
+			map1.set(query[i], 1);
+	}
+
 	for(let i=0; i<document1.length; i++) {
 		if(map.get(document1[i]))
 			map.set(document1[i], map.get(document1[i]) + 1);
@@ -146,13 +155,11 @@ function createColumn() {
 	createRect(pw, ph, index, "DOC1", y, "red", false)
 	index++;
 
-	map = new Map();
 	let value = 0;
 	index = 0;
 	columns.forEach((element) => {
 		if(map.get(element) && map1.get(element)) {
-			console.log(value);
-			value += (+map.get(element)) * (+map1.get(element));
+			value += ((+map.get(element)) * (+map1.get(element)));
 		}
 		index++;
 	})
